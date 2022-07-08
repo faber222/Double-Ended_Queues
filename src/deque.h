@@ -5,14 +5,15 @@
 
 namespace prg2 {
 
-// A template for circularlist
+// deque template
 template <typename T>
 struct trecho {
+  // deque and a pointer for the next deque
   fila_circular<T> fila;
   trecho<T>* proximo;
 };
 
-// A template for using on the entire code
+// template for using on the entire code
 template <typename T>
 struct deque {
   trecho<T>*primeiro, ultimo;
@@ -67,4 +68,6 @@ template <typename T>
 T& deque_acessa(deque<T>& q, int pos);
 
 }  // namespace prg2
+#include "fila_circular.h"
+
 #endif  // DEQUE_DEQUE_H

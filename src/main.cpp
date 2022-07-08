@@ -12,6 +12,7 @@ using std::string;
 //  q: o deque
 // delim: um caractere a ser usado como delimitador entre os valores do deque na
 // string Resultado: uma string com o conteúdo do deque
+/*
 string deque2string(prg2::deque<int>& q, char delim = ',') {
   string r;
 
@@ -29,8 +30,16 @@ string deque2string(prg2::deque<int>& q, char delim = ',') {
 
   return r;
 }
+*/
 
 int main() {
+  auto q = prg2::fila_cria<int>(4);
+  prg2::fila_anexa(q, 4);
+  prg2::fila_anexa(q, 3);
+  prg2::fila_anexa(q, 5);
+  prg2::fila_anexa(q, 7);
+
+/*
   // cria um deque que armazena int
   auto q1 = prg2::deque_cria<int>();
 
@@ -54,4 +63,5 @@ int main() {
 
   prg2::deque_destroi(q1);
   return 0;
+*/
 }
