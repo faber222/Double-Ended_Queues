@@ -32,16 +32,49 @@ string deque2string(prg2::deque<int>& q, char delim = ',') {
 }
 */
 
+string fila2string(prg2::fila_circular<int>& q, char delim = ',') {
+  string r;
+
+  // somente gera a string de resultado se deque não estiver vazio
+  if (!prg2::fila_vazia(q)) {
+    auto len = prg2::fila_tamanho(q);
+    // itera o deque, convertendo seus valores para string e unindo-os com o
+    // caractere delim
+    for (int j = 0; j < len; j++) {
+      r += std::to_string(prg2::fila_acessa(q, j)) + delim;
+    }
+    // remove o caractere delimitador em excesso
+    r.pop_back();
+  }
+
+  return r;
+}
+
 int main() {
   auto q = prg2::fila_cria<int>(4);
   prg2::fila_anexa(q, 4);
-  prg2::fila_anexa(q, 3);
-  prg2::fila_anexa(q, 5);
   prg2::fila_anexa(q, 7);
-  prg2::fila_remove_final(q);
-  prg2::fila_insere(q, 6);
-  prg2::fila_remove_final(q);
+  prg2::fila_insere(q, 5);
   prg2::fila_insere(q, 8);
+  
+  cout << fila2string(q) << endl;
+
+  prg2::fila_remove_inicio(q);
+  cout << fila2string(q) << endl;
+
+  prg2::fila_anexa(q, 9);
+  cout << fila2string(q) << endl;
+
+  for (int i = 0; i < q.capacidade; i++) {
+    cout << "pos " << i << "=" << q.area[i] << endl;
+  }
+
+  auto teste = prg2::fila_frente(q);
+  auto teste2 = prg2::fila_atras(q);
+  auto teste3 = prg2::fila_acessa(q, 2);
+  cout << teste << endl;
+  cout << teste2 << endl;
+  cout << teste3 << endl;
 
   /*
     // cria um deque que armazena int

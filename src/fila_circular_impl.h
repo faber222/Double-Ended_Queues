@@ -4,13 +4,27 @@
 #include <stdexcept>
 
 namespace prg2 {
+
+// used for queue iterator
+static int incremento_circular(int pos, int capacidade, int incremento = 1) {
+  return (pos + incremento) % capacidade;
+}
+
+// used for queue decrementer
+static int decremento_circular(int pos, int capacidade) {
+  if (pos == 0) {
+    return capacidade - 1;
+  } else {
+    return pos - 1;
+  }
+}
+
 // create the deque
 template <typename T>
 fila_circular<T> fila_cria(int capacidade) {
   if (capacidade <= 0) {
     throw std::invalid_argument("capacidade deve ser > 0!");
   }
-
   fila_circular<T> fila;
 
   fila.inicio = 0;
@@ -41,10 +55,7 @@ void fila_anexa(fila_circular<T>& fila, const T& dados) {
   }
   fila.area[fila.fim] = dados;
   fila.n++;
-  fila.fim++;
-  if (fila.fim == fila.capacidade) {
-    fila.fim = 0;
-  }
+  fila.fim = incremento_circular(fila.fim, fila.capacidade);
 }
 
 // add data at the begin
@@ -53,13 +64,9 @@ void fila_insere(fila_circular<T>& fila, const T& dados) {
   if (fila_cheia(fila)) {
     throw std::invalid_argument("fila esta cheia");
   }
-  fila.area[fila.inicio] = dados;
+  fila.inicio = decremento_circular(fila.inicio, fila.capacidade);
   fila.n++;
-  fila.inicio--;
-  if (fila.inicio < 0) {
-    fila.inicio = fila.capacidade - 1;
-    fila.area[fila.inicio] = dados;
-  }
+  fila.area[fila.inicio] = dados;
 }
 
 // remove the last data
@@ -68,13 +75,8 @@ void fila_remove_final(fila_circular<T>& fila) {
   if (fila_vazia(fila)) {
     throw std::invalid_argument("fila esta vazia");
   }
-  fila.area[fila.fim] = fila.area[fila.fim - 1];
   fila.n--;
-  fila.fim--;
-  if (fila.fim < 0) {
-    fila.area[fila.fim] = fila.area[fila.capacidade - 1];
-    fila.fim = fila.capacidade - 1;
-  }
+  fila.fim = decremento_circular(fila.fim, fila.capacidade);
 }
 
 // remove the first data
@@ -83,13 +85,8 @@ void fila_remove_inicio(fila_circular<T>& fila) {
   if (fila_vazia(fila)) {
     throw std::invalid_argument("fila esta vazia");
   }
-  fila.area[fila.inicio] = fila.area[fila.inicio + 1];
   fila.n--;
-  fila.inicio++;
-  if (fila.inicio == fila.capacidade) {
-    fila.area[fila.inicio] = fila.area[0];
-    fila.inicio = 0;
-  }
+  fila.inicio = incremento_circular(fila.inicio, fila.capacidade);
 }
 
 // show randon data
@@ -98,6 +95,10 @@ T& fila_acessa(fila_circular<T>& fila, int pos) {
   if (fila_vazia(fila)) {
     throw std::invalid_argument("fila esta vazia");
   }
+  if (pos >= fila.n) {
+    throw std::invalid_argument("posicao invalida: " + std::to_string(pos));
+  }
+  return fila.area[incremento_circular(fila.inicio, fila.capacidade, pos)];
 }
 
 // show the fist data
@@ -106,6 +107,7 @@ T& fila_frente(fila_circular<T>& fila) {
   if (fila_vazia(fila)) {
     throw std::invalid_argument("fila esta vazia");
   }
+  return fila.area[fila.inicio];
 }
 
 // show the last data
@@ -114,6 +116,7 @@ T& fila_atras(fila_circular<T>& fila) {
   if (fila_vazia(fila)) {
     throw std::invalid_argument("fila esta vazia");
   }
+  return fila.area[decremento_circular(fila.fim, fila.capacidade)];
 }
 
 // check if is empty
@@ -130,7 +133,7 @@ bool fila_cheia(const fila_circular<T>& fila) {
 
 // check the size of
 template <typename T>
-int fila_tamanho(const fila_circular<T>& fila) {
+int fila_tamanho(fila_circular<T>& fila) {
   return fila.n;
 }
 
