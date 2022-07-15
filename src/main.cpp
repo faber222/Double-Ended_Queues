@@ -12,7 +12,7 @@ using std::string;
 //  q: o deque
 // delim: um caractere a ser usado como delimitador entre os valores do deque na
 // string Resultado: uma string com o conteúdo do deque
-/*
+
 string deque2string(prg2::deque<int>& q, char delim = ',') {
   string r;
 
@@ -30,7 +30,6 @@ string deque2string(prg2::deque<int>& q, char delim = ',') {
 
   return r;
 }
-*/
 
 string fila2string(prg2::fila_circular<int>& q, char delim = ',') {
   string r;
@@ -56,7 +55,7 @@ int main() {
   prg2::fila_anexa(q, 7);
   prg2::fila_insere(q, 5);
   prg2::fila_insere(q, 8);
-  
+
   cout << fila2string(q) << endl;
 
   prg2::fila_remove_inicio(q);
@@ -76,29 +75,27 @@ int main() {
   cout << teste2 << endl;
   cout << teste3 << endl;
 
-  /*
-    // cria um deque que armazena int
-    auto q1 = prg2::deque_cria<int>();
+  // cria um deque que armazena int
+  auto q1 = prg2::deque_cria<int>();
 
-    // acrescenta dados ao início
-    prg2::deque_insere(q1, 7);
-    prg2::deque_insere(q1, 9);
-    cout << "Deque após inserir alguns dados: " << deque2string(q1) << endl;
+  // acrescenta dados ao início
+  prg2::deque_insere(q1, 7);
+  prg2::deque_insere(q1, 9);
+  cout << "Deque após inserir alguns dados: " << deque2string(q1) << endl;
 
-    // acrescenta dados ao final
-    prg2::deque_anexa(q1, 2);
-    prg2::deque_anexa(q1, 4);
-    cout << "Deque após anexar mais alguns dados: " << deque2string(q1) << endl;
+  // acrescenta dados ao final
+  prg2::deque_anexa(q1, 2);
+  prg2::deque_anexa(q1, 4);
+  cout << "Deque após anexar mais alguns dados: " << deque2string(q1) << endl;
 
-    // Remove um dado do início
-    prg2::deque_remove_inicio(q1);
-    cout << "Deque após remover do início: " << deque2string(q1) << endl;
+  // Remove um dado do início
+  prg2::deque_remove_inicio(q1);
+  cout << "Deque após remover do início: " << deque2string(q1) << endl;
 
-    // Remove um dado do final
-    prg2::deque_remove_final(q1);
-    cout << "Deque após remover do final: " << deque2string(q1) << endl;
+  // Remove um dado do final
+  prg2::deque_remove_final(q1);
+  cout << "Deque após remover do final: " << deque2string(q1) << endl;
 
-    prg2::deque_destroi(q1);
-    return 0;
-  */
+  prg2::deque_destroi(q1);
+  return 0;
 }

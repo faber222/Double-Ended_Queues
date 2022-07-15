@@ -16,13 +16,15 @@ struct trecho {
 // template for using on the entire code
 template <typename T>
 struct deque {
-  trecho<T>*primeiro, ultimo;
+  trecho<T>*primeiro, *ultimo;
   int tamanho;
 };
 
+const int tam_default = 16;
+
 // create a empty deque
 template <typename T>
-deque<T> deque_cria();
+deque<T> deque_cria(int tam_trecho = tam_default);
 
 // remove deque
 template <typename T>
@@ -68,6 +70,7 @@ template <typename T>
 T& deque_acessa(deque<T>& q, int pos);
 
 }  // namespace prg2
+#include "deque_impl.h"
 #include "fila_circular.h"
 
 #endif  // DEQUE_DEQUE_H
