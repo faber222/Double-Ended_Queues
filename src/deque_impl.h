@@ -3,6 +3,12 @@
 
 namespace prg2 {
 template <typename T>
+void trecho_destroi(trecho<T>* p) {
+  fila_destroi(p->fila);
+  delete p;
+}
+
+template <typename T>
 trecho<T>* trecho_cria(int tam_trecho) {
   auto p_trecho = new trecho<T>;
 
@@ -27,7 +33,13 @@ deque<T> deque_cria(int tam_trecho) {
 
 // remove deque
 template <typename T>
-void deque_destroi(deque<T>& q) {}
+void deque_destroi(deque<T>& q) {
+  for (auto ptr = q.primeiro; ptr != nullptr;) {
+    auto proximo = ptr->proximo;
+    trecho_destroi(ptr);
+    ptr = proximo;
+  }
+}
 
 // return the size of deque
 template <typename T>
@@ -58,7 +70,12 @@ template <typename T>
 void deque_insere(deque<T>& q, const T& dado) {
   if (fila_cheia(q.primeiro->fila)) {
     auto tamanho = fila_tamanho(q.primeiro->fila);
+    auto novo_trecho = trecho_cria<T>(tamanho);
+    novo_trecho->proximo = q.primeiro;
+    q.primeiro = novo_trecho;
   }
+  fila_insere(q.primeiro->fila, dado);
+  q.tamanho++;
 }
 
 // remove the last data
@@ -72,17 +89,35 @@ void deque_remove_inicio(deque<T>& q) {}
 // show the last data
 // if is empty, throw invalid_argument!
 template <typename T>
-T& deque_acessa_final(deque<T>& q) {}
+T& deque_acessa_final(deque<T>& q) {
+  return fila_atras(q.ultimo->fila);
+}
 
 // show the first data
 // if is empty, throw invalid_argument!
 template <typename T>
-T& deque_acessa_inicio(deque<T>& q) {}
+T& deque_acessa_inicio(deque<T>& q) {
+  return fila_frente(q.primeiro->fila);
+}
 
 // show any data
 // if is empty, throw invalid_argument!
 template <typename T>
-T& deque_acessa(deque<T>& q, int pos) {}
+T& deque_acessa(deque<T>& q, int pos) {
+  auto salto = q.primeiro;
+  auto tamanho = fila_tamanho(salto->fila);
+  if (pos < tamanho) {
+    return fila_acessa(salto->fila, pos);
+  }
+  for (; pos > tamanho; pos - tamanho) {
+    auto salto_proximo = salto->proximo;
+    tamanho = fila_tamanho(salto_proximo->fila);
+    if (pos < tamanho) {
+      return fila_acessa(salto_proximo->fila, pos);
+    }
+    salto_proximo = salto_proximo->proximo;
+  }
+}
 
 }  // namespace prg2
 
