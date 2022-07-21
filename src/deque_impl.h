@@ -80,11 +80,15 @@ void deque_insere(deque<T>& q, const T& dado) {
 
 // remove the last data
 template <typename T>
-void deque_remove_final(deque<T>& q) {}
+void deque_remove_final(deque<T>& q) {
+  fila_remove_final(q.ultimo->fila);
+}
 
 // remove the first data
 template <typename T>
-void deque_remove_inicio(deque<T>& q) {}
+void deque_remove_inicio(deque<T>& q) {
+  fila_remove_inicio(q.primeiro->fila);
+}
 
 // show the last data
 // if is empty, throw invalid_argument!
@@ -105,20 +109,19 @@ T& deque_acessa_inicio(deque<T>& q) {
 template <typename T>
 T& deque_acessa(deque<T>& q, int pos) {
   auto salto = q.primeiro;
+  auto salto_proximo = salto->proximo;
   auto tamanho = fila_tamanho(salto->fila);
-  if (pos < tamanho) {
-    return fila_acessa(salto->fila, pos);
-  }
-  for (; pos > tamanho; pos - tamanho) {
-    auto salto_proximo = salto->proximo;
-    tamanho = fila_tamanho(salto_proximo->fila);
-    if (pos < tamanho) {
-      return fila_acessa(salto_proximo->fila, pos);
+  if (pos > tamanho) {
+    for (; pos > tamanho; pos - tamanho) {
+      tamanho = fila_tamanho(salto_proximo->fila);
+      if (pos < tamanho) {
+        return fila_acessa(salto_proximo->fila, pos);
+      }
+      salto_proximo = salto_proximo->proximo;
     }
-    salto_proximo = salto_proximo->proximo;
   }
+  return fila_acessa(salto->fila, pos);
 }
-
 }  // namespace prg2
 
 #endif

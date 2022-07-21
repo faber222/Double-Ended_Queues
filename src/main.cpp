@@ -1,7 +1,10 @@
+#include <cctype>
+#include <fstream>
 #include <iostream>
 #include <string>
 
 #include "deque.h"
+#include "funcoes.h"
 
 using std::cout;
 using std::endl;
@@ -31,35 +34,19 @@ string deque2string(prg2::deque<int>& q, char delim = ',') {
   return r;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+  std::ifstream arq(argv[1]);
+  int intervalo = std::stoi(argv[2]);
+  string tipo_media = "mms";
+  if (argc == 4) {
+    tipo_media = argv[3];
+  }
+  if (tipo_media == "mmp") {
+    // do
+  } else if (tipo_media == "mms") {
+    std::cout << "chama" << endl;
+  }
+
   // cria um deque que armazena int
   auto q1 = prg2::deque_cria<int>();
-  int pos = 10;
-
-  // acrescenta dados ao início
-  prg2::deque_insere(q1, 7);
-  cout << "primeiro : " << prg2::deque_acessa_inicio(q1) << endl;
-  prg2::deque_insere(q1, 9);
-  cout << "primeiro : " << prg2::deque_acessa_inicio(q1) << endl;
-
-  // acrescenta dados ao final
-  prg2::deque_anexa(q1, 2);
-  prg2::deque_anexa(q1, 4);
-  prg2::deque_anexa(q1, 5);
-  prg2::deque_anexa(q1, 6);
-  prg2::deque_anexa(q1, 15);
-  prg2::deque_anexa(q1, 20);
-  prg2::deque_anexa(q1, 30);
-  prg2::deque_anexa(q1, 40);
-  cout << "ultimo : " << prg2::deque_acessa_final(q1) << endl;
-  cout << "posicao : " << pos << " " << prg2::deque_acessa(q1, pos) << endl;
-
-  // Remove um dado do início
-  prg2::deque_remove_inicio(q1);
-
-  // Remove um dado do final
-  prg2::deque_remove_final(q1);
-
-  prg2::deque_destroi(q1);
-  return 0;
 }
