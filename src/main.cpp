@@ -1,6 +1,8 @@
 #include <cctype>
 #include <fstream>
 #include <iostream>
+#include <list>
+#include <stdexcept>
 #include <string>
 
 #include "deque.h"
@@ -8,45 +10,43 @@
 
 using std::cout;
 using std::endl;
+using std::stoi;
 using std::string;
-
-// gera uma string com uma representação do conteúdo do deque
-// Parâmetros:
-//  q: o deque
-// delim: um caractere a ser usado como delimitador entre os valores do deque na
-// string Resultado: uma string com o conteúdo do deque
-
-string deque2string(prg2::deque<int>& q, char delim = ',') {
-  string r;
-
-  // somente gera a string de resultado se deque não estiver vazio
-  if (!prg2::deque_vazio(q)) {
-    auto len = prg2::deque_tamanho(q);
-    // itera o deque, convertendo seus valores para string e unindo-os com o
-    // caractere delim
-    for (int j = 0; j < len; j++) {
-      r += std::to_string(prg2::deque_acessa(q, j)) + delim;
-    }
-    // remove o caractere delimitador em excesso
-    r.pop_back();
-  }
-
-  return r;
-}
+using par = std::pair<string, double>;
 
 int main(int argc, char* argv[]) {
-  std::ifstream arq(argv[1]);
-  int intervalo = std::stoi(argv[2]);
-  string tipo_media = "mms";
-  if (argc == 4) {
-    tipo_media = argv[3];
-  }
-  if (tipo_media == "mmp") {
-    // do
-  } else if (tipo_media == "mms") {
-    std::cout << "chama" << endl;
+  std::ifstream arq(argv[1]);  // abre o arquivo em modo leitura
+  if (!arq.is_open()) {
+    cerr << "Algum erro ao abrir o arquivo ..." << endl;
+    exit(true);
   }
 
-  // cria um deque que armazena int
-  auto q1 = prg2::deque_cria<int>();
+  list<par> valores;
+  string sep = " ";           // caracter para separar os dados
+  string tipo_media = "mms";  // define string padrao
+  int intervalo;              // variavel de intervalo
+
+  // verifica se o intervalo é valido
+  try {
+    intervalo = stoi(argv[2]);  // converte uma string para inteiro
+    if (intervalo <= 0) {
+      cerr << "o valor de intervalo deve ser maior que 0" << endl;
+      exit(true);
+    }
+  } catch (...) {
+    // retorna invalido caso a operação acima não seja possivel
+    throw std::invalid_argument("valor de argv[2] invalido");
+  }
+
+  if (argc == 4) {         // se for digitado um terceiro argumento
+    tipo_media = argv[3];  // salva em tipo_media
+  }
+  // obtem dados do arquivo;
+  le_arquivo(arq, valores, sep);
+  if (tipo_media == "mms") {
+    mms(valores, intervalo);
+  }
+  if (tipo_media == "mmp") {
+    mmp(valores, intervalo);
+  }
 }

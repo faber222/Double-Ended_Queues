@@ -82,12 +82,30 @@ void deque_insere(deque<T>& q, const T& dado) {
 template <typename T>
 void deque_remove_final(deque<T>& q) {
   fila_remove_final(q.ultimo->fila);
+
+  if (fila_vazia(q.ultimo->fila)) {
+    auto trecho_atual = q.primeiro;
+    while (trecho_atual->proximo != q.ultimo) {
+      trecho_atual = trecho_atual->proximo;
+    }
+    fila_destroi(trecho_atual->proximo->fila);
+    q.ultimo = trecho_atual;
+  }
+  q.tamanho--;
 }
 
 // remove the first data
 template <typename T>
 void deque_remove_inicio(deque<T>& q) {
+  auto trecho_novo = q.primeiro->proximo;
   fila_remove_inicio(q.primeiro->fila);
+
+  if (fila_vazia(q.primeiro->fila)) {
+    auto primeiro = q.primeiro;
+    q.primeiro = trecho_novo;
+    fila_destroi(primeiro->fila);
+  }
+  q.tamanho--;
 }
 
 // show the last data
@@ -108,18 +126,19 @@ T& deque_acessa_inicio(deque<T>& q) {
 // if is empty, throw invalid_argument!
 template <typename T>
 T& deque_acessa(deque<T>& q, int pos) {
-  auto salto = q.primeiro;
-  auto salto_proximo = salto->proximo;
-  auto tamanho = fila_tamanho(salto->fila);
-  if (pos > tamanho) {
-    for (; pos > tamanho; pos - tamanho) {
-      tamanho = fila_tamanho(salto_proximo->fila);
-      if (pos < tamanho) {
-        return fila_acessa(salto_proximo->fila, pos);
-      }
-      salto_proximo = salto_proximo->proximo;
-    }
+  if (deque_vazio(q)) {
+    throw std::invalid_argument("deque vazio");
   }
+  if (pos > q.tamanho - 1) {
+    throw std::invalid_argument("posicao invalida");
+  }
+
+  auto salto = q.primeiro;
+  while (pos >= fila_tamanho(salto->fila)) {
+    pos = pos - fila_tamanho(salto->fila);
+    salto = salto->proximo;
+  }
+
   return fila_acessa(salto->fila, pos);
 }
 }  // namespace prg2

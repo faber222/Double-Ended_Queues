@@ -20,11 +20,9 @@ struct deque {
   int tamanho;
 };
 
-const int tam_default = 16;
-
 // create a empty deque
 template <typename T>
-deque<T> deque_cria(int tam_trecho = tam_default);
+deque<T> deque_cria(int tam_trecho);
 
 // remove deque
 template <typename T>
