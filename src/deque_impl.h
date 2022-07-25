@@ -82,9 +82,9 @@ void deque_insere(deque<T>& q, const T& dado) {
 template <typename T>
 void deque_remove_final(deque<T>& q) {
   fila_remove_final(q.ultimo->fila);
+  auto trecho_atual = q.primeiro;
 
   if (fila_vazia(q.ultimo->fila)) {
-    auto trecho_atual = q.primeiro;
     while (trecho_atual->proximo != q.ultimo) {
       trecho_atual = trecho_atual->proximo;
     }

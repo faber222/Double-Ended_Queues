@@ -1,4 +1,9 @@
-#include "funcoes.h"
+#ifndef FUNCOES_IMPL_H
+#define FUNCOES_IMPL_H
+
+using namespace std;
+
+using par = pair<string, double>;
 
 list<string> separa(const string &texto, string sep) {
   int x = 0;
@@ -26,7 +31,7 @@ void separa_em_pares(const string &texto, string sep, list<par> &pares) {
 void le_arquivo(ifstream &arq, list<par> &valores, const string sep) {
   string dados;
   while (true) {
-    if (std::getline(arq, dados)) {
+    if (getline(arq, dados)) {
       separa_em_pares(dados, sep, valores);
     } else {
       arq.clear();
@@ -69,9 +74,8 @@ void mmp(list<par> &dados, int intervalo) {
 
 void mostra_resultado(prg2::deque<par> &d2) {
   while (!prg2::deque_vazio(d2)) {
-    cout << prg2::deque_acessa_inicio(d2).first << " " << std::fixed
-         << std::setprecision(2) << prg2::deque_acessa_inicio(d2).second
-         << endl;
+    cout << prg2::deque_acessa_inicio(d2).first << " " << fixed
+         << setprecision(2) << prg2::deque_acessa_inicio(d2).second << " ";
     prg2::deque_remove_inicio(d2);
   }
 }
@@ -117,3 +121,7 @@ void calculo_mmp(prg2::deque<par> &d1, prg2::deque<par> &d2, int intervalo) {
     count = 1;
   }
 }
+
+#include "funcoes.h"
+
+#endif
