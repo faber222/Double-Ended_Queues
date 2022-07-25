@@ -23,9 +23,12 @@ int main(int argc, char* argv[]) {
   }
 
   list<par> valores;
-  string sep = " ";           // caracter para separar os dados
-  string tipo_media = "mms";  // define string padrao
-  int intervalo;              // variavel de intervalo
+  string sep = " ";  // caracter para separar os dados
+  string tipo_media;
+  if (argc < 4) {
+    tipo_media = "mms";  // define string padrao
+  }
+  int intervalo;  // variavel de intervalo
 
   // verifica se o intervalo é valido
   try {
@@ -44,10 +47,8 @@ int main(int argc, char* argv[]) {
   }
   // obtem dados do arquivo;
   le_arquivo(arq, valores, sep);
-  if (tipo_media == "mms") {
-    mms(valores, intervalo);
-  }
-  if (tipo_media == "mmp") {
-    mmp(valores, intervalo);
+
+  if (tipo_media == "mms" || tipo_media == "mmp") {
+    mm(valores, intervalo, tipo_media);
   }
 }

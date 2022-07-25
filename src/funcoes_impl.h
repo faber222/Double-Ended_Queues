@@ -40,44 +40,31 @@ void le_arquivo(ifstream &arq, list<par> &valores, const string sep) {
   }
 }
 
-void mms(list<par> &dados, int intervalo) {
-  auto d1 = prg2::deque_cria<par>(intervalo);
-  auto d2 = prg2::deque_cria<par>(intervalo);
-
-  for (auto &x : dados) {
-    prg2::deque_anexa(d1, x);
-  }
-
-  calculo_mms(d1, d2, intervalo);
-
-  mostra_resultado(d2);
-
-  prg2::deque_destroi(d1);
-  prg2::deque_destroi(d2);
-}
-
-void mmp(list<par> &dados, int intervalo) {
-  auto d1 = prg2::deque_cria<par>(intervalo);
-  auto d2 = prg2::deque_cria<par>(intervalo);
-
-  for (auto &x : dados) {
-    prg2::deque_anexa(d1, x);
-  }
-
-  calculo_mmp(d1, d2, intervalo);
-
-  mostra_resultado(d2);
-
-  prg2::deque_destroi(d1);
-  prg2::deque_destroi(d2);
-}
-
 void mostra_resultado(prg2::deque<par> &d2) {
   while (!prg2::deque_vazio(d2)) {
     cout << prg2::deque_acessa_inicio(d2).first << " " << fixed
-         << setprecision(2) << prg2::deque_acessa_inicio(d2).second << " ";
+         << setprecision(2) << prg2::deque_acessa_inicio(d2).second << endl;
     prg2::deque_remove_inicio(d2);
   }
+}
+
+void mm(list<par> &dados, int intervalo, const string tipo) {
+  auto d1 = prg2::deque_cria<par>(intervalo);
+  auto d2 = prg2::deque_cria<par>(intervalo);
+
+  for (auto &x : dados) {
+    prg2::deque_anexa(d1, x);
+  }
+  if (tipo == "mms") {
+    calculo_mms(d1, d2, intervalo);
+  } else {
+    calculo_mmp(d1, d2, intervalo);
+  }
+
+  mostra_resultado(d2);
+
+  prg2::deque_destroi(d1);
+  prg2::deque_destroi(d2);
 }
 
 void calculo_mms(prg2::deque<par> &d1, prg2::deque<par> &d2, int intervalo) {
