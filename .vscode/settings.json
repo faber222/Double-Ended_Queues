@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.c": "c",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "iostream": "cpp",
+        "iomanip": "cpp"
     }
 }

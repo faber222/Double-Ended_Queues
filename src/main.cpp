@@ -17,7 +17,7 @@ using par = std::pair<string, double>;
 
 int main(int argc, char* argv[]) {
   std::ifstream arq(argv[1]);  // abre o arquivo em modo leitura
-  if (!arq.is_open()) {
+  if (!arq.is_open()) {        // se nãpo for possivel, informa erro
     cerr << "Algum erro ao abrir o arquivo ..." << endl;
     exit(true);
   }
@@ -48,6 +48,7 @@ int main(int argc, char* argv[]) {
   // obtem dados do arquivo;
   le_arquivo(arq, valores, sep);
 
+  // so chama a funcao se argv[3] for mms ou mmp, evitando quebra de codigo
   if (tipo_media == "mms" || tipo_media == "mmp") {
     mm(valores, intervalo, tipo_media);
   }
