@@ -48,8 +48,13 @@ int main(int argc, char* argv[]) {
   // obtem dados do arquivo;
   le_arquivo(arq, valores, sep);
 
-  // so chama a funcao se argv[3] for mms ou mmp, evitando quebra de codigo
-  if (tipo_media == "mms" || tipo_media == "mmp") {
-    mm(valores, intervalo, tipo_media);
+  auto calc = calculo_mms;
+  if (tipo_media == "mmp") {
+    calc = calculo_mmp;
+  } else if (tipo_media != "mms") {
+    cout << "tipo invalido" << endl;
+    return 0;
   }
+  auto serie = calc(valores, intervalo);
+  mostra_resultado(serie);
 }
