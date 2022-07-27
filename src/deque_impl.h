@@ -81,16 +81,25 @@ void deque_insere(deque<T>& q, const T& dado) {
 // remove the last data
 template <typename T>
 void deque_remove_final(deque<T>& q) {
-  fila_remove_final(q.ultimo->fila);
-  auto trecho_atual = q.primeiro;
+  if (deque_vazio(q)) {
+    throw std::invalid_argument("deque vazio");
+  }
+  auto& deque_remove = q.ultimo;
 
   if (fila_vazia(q.ultimo->fila)) {
+    auto& ptr_trecho = q.ultimo;
+
+    auto trecho_atual = q.primeiro;
     while (trecho_atual->proximo != q.ultimo) {
       trecho_atual = trecho_atual->proximo;
     }
-    fila_destroi(trecho_atual->proximo->fila);
-    q.ultimo = trecho_atual;
+    fila_destroi(ptr_trecho->fila);
+    delete ptr_trecho;
+
+    trecho_atual->proximo = nullptr;
+    deque_remove = trecho_atual;
   }
+  fila_remove_final(deque_remove->fila);
   q.tamanho--;
 }
 
@@ -112,6 +121,16 @@ void deque_remove_inicio(deque<T>& q) {
 // if is empty, throw invalid_argument!
 template <typename T>
 T& deque_acessa_final(deque<T>& q) {
+  if (deque_vazio(q)) {
+    throw std::runtime_error("deque vazio");
+  }
+  if (fila_vazia(q.ultimo->fila)) {
+    auto ptr_trecho = q.primeiro;
+    while (ptr_trecho->proximo != q.ultimo) {
+      ptr_trecho = ptr_trecho->proximo;
+    }
+    return fila_atras(ptr_trecho->fila);
+  }
   return fila_atras(q.ultimo->fila);
 }
 
@@ -119,6 +138,9 @@ T& deque_acessa_final(deque<T>& q) {
 // if is empty, throw invalid_argument!
 template <typename T>
 T& deque_acessa_inicio(deque<T>& q) {
+  if (deque_vazio(q)) {
+    throw std::runtime_error("deque vazio");
+  }
   return fila_frente(q.primeiro->fila);
 }
 
